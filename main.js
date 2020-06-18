@@ -10,7 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Control buttons
   document.getElementById("predictBtn").addEventListener("click", async () => {
-    const predictions = await model.predict(canvas.getImageData());
+    let predictions = await model.predict(canvas.getImageData());
+    predictions = predictions.map(prediction => prediction*100);
     _updateChart(predictions);
   });
 
@@ -53,6 +54,10 @@ function _makeChart() {
           },
         ],
       },
+      title: {
+        display: true,
+        text: "Prediction"
+      }
     },
   });
 }

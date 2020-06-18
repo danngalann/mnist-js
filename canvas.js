@@ -12,7 +12,7 @@ class Canvas {
     this.flag = false;
     this.dotFlag = false;
     this.color = "white";
-    this.stroke = 2;
+    this.thickness = 10;
 
     this.initEventListeners();
   }
@@ -37,7 +37,7 @@ class Canvas {
     this.ctx.moveTo(this.prevX, this.prevY);
     this.ctx.lineTo(this.currX, this.currY);
     this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = this.stroke;
+    this.ctx.lineWidth = this.thickness;
     this.ctx.stroke();
     this.ctx.closePath();
   }
@@ -84,12 +84,27 @@ class Canvas {
     }
   }
 
-  getCanvas(){
-    return this.canvas;
+  _getScaledCanvas(){
+    // Get hidden canvas
+    const scaledCanvas = document.getElementById("scaled");
+    const scaledCtx = scaledCanvas.getContext("2d");
+
+    // Draw image in hidden canvas
+    scaledCtx.drawImage(this.canvas, 0, 0, 28, 28);
+
+    // Get image data and clear hidden canvas
+    const scaled = scaledCtx.getImageData(0, 0, 28, 28);
+    scaledCtx.clearRect(0, 0, 28, 28)
+    
+    // Return image data
+    return scaled
   }
 
   getImageData(){
-    const scaled = this.ctx.drawImage(this.canvas, 0, 0, 28, 28);
-    return this.ctx.getImageData(0, 0, 28, 28);
+    return this._getScaledCanvas();
+  }
+
+  toDataURL(){
+    return this.canvas.toDataURL();
   }
 }
