@@ -42,20 +42,24 @@ class Canvas {
     this.ctx.closePath();
   }
 
-  _updateCoords(e){
+  erase() {
+    this.ctx.clearRect(0, 0, this.width, this.height);
+  }
+
+  _updateCoords(e) {
     // Update last coords
     this.prevX = this.currX;
     this.prevY = this.currY;
 
     // Get current coords
-    const rect = this.canvas.getBoundingClientRect()
+    const rect = this.canvas.getBoundingClientRect();
     this.currX = e.clientX - rect.left;
     this.currY = e.clientY - rect.top;
   }
 
   findxy(action, e) {
     if (action == "down") {
-      this._updateCoords(e)
+      this._updateCoords(e);
 
       this.flag = true;
       this.dot_flag = true;
@@ -74,9 +78,9 @@ class Canvas {
 
     if (action == "move") {
       if (this.flag) {
-        this._updateCoords(e)
+        this._updateCoords(e);
         this.draw();
-        console.log(this.currX, this.currY)
+        console.log(this.currX, this.currY);
       }
     }
   }

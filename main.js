@@ -1,32 +1,39 @@
+let chart = null;
+
 document.addEventListener("DOMContentLoaded", () => {
   canvas = new Canvas("drawing");
-  
+  _makeChart();
+
   document.getElementById("predictBtn").addEventListener("click", () => {
-    _makeChart(_makeRandomData());
-  })
+    _updateChart(_makeRandomData());
+  });
+
+  document.getElementById("eraseBtn").addEventListener("click", () => {
+    canvas.erase();
+  });
 });
 
-function _makeRandomData(){
+function _makeRandomData() {
   let data = [];
   for (let i = 0; i < 19; i++) {
     let value = Math.random();
     data.push(value);
   }
-  
-  return data
+
+  return data;
 }
 
-function _makeChart(scores) {
+function _makeChart() {
   var ctx = document.getElementById("chart").getContext("2d");
-  var myChart = new Chart(ctx, {
+  chart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
       datasets: [
         {
           label: "confidence",
-          data: scores,
-          backgroundColor: "rgba(255, 99, 132, 0.5)"
+          data: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+          backgroundColor: "rgba(255, 99, 132, 0.5)",
         },
       ],
     },
@@ -42,4 +49,9 @@ function _makeChart(scores) {
       },
     },
   });
+}
+
+function _updateChart(scores) {
+  chart.data.datasets[0].data = scores;
+  chart.update();
 }
