@@ -4,8 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas = new Canvas("drawing");
   _makeChart();
 
-  document.getElementById("predictBtn").addEventListener("click", () => {
-    _updateChart(_makeRandomData());
+  // Init model
+  const model = new Model();
+  model.loadModel();
+
+  // Control buttons
+  document.getElementById("predictBtn").addEventListener("click", async () => {
+    const predictions = await model.predict(canvas.getImageData());
+    _updateChart(predictions);
   });
 
   document.getElementById("eraseBtn").addEventListener("click", () => {
