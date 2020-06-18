@@ -80,8 +80,16 @@ class Canvas {
       if (this.flag) {
         this._updateCoords(e);
         this.draw();
-        console.log(this.currX, this.currY);
       }
     }
+  }
+
+  getCanvas(){
+    return this.canvas;
+  }
+
+  getImageData(){
+    const scaled = this.ctx.drawImage(this.canvas, 0, 0, 28, 28);
+    return this.ctx.getImageData(0, 0, 28, 28);
   }
 }
